@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon/icon-module';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, HelloComponent, MatIconModule ],
+  declarations: [ AppComponent, HelloComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
