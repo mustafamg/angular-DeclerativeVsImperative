@@ -28,19 +28,34 @@ export class AppComponent implements OnInit {
       })
     );
 
-    const hDir = xyPipe.pipe(
+    const xDir = xyPipe.pipe(
       map((xy) => xy.x),
       bufferCount(2),
       map(([ox, nx]) => (ox > nx ? 'left' : 'right'))
     );
 
-    const vDir = xyPipe.pipe(
+    const yDir = xyPipe.pipe(
       map((xy) => xy.y),
       bufferCount(2),
       map(([ox, nx]) => (ox > nx ? 'up' : 'down'))
     );
-    const xydir = hDir.pipe(mergeWith(vDir), bufferCount(2));
+    const xydir = xDir.pipe(mergeWith(yDir), bufferCount(2));
     xydir.subscribe((x) => console.log(x));
+
+    xydir
+      .pipe(
+        scan(
+          (acc, xy) => {
+            const acc1 = [
+              acc[0] + (xy[0] == 'right' ? 1 : -1),
+              acc[1] + (xy[1] == 'up' ? 1 : -1),
+            ];
+            return acc1;
+          },
+          [0, 0]
+        )
+      )
+      .subscribe((xy) => console.log(xy));
     //xyPipe.subscribe((xy) => console.log(xy));
   }
 
